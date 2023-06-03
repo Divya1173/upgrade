@@ -16,30 +16,13 @@ def validAnagram(a, b):
 
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        check = defaultdict(str)
-        counter_dict = defaultdict(dict)
-        for i in strs:
-            check[i] = False
-            counter_dict[i] = Counter(i)
-
-        def validAnagram(a, b):
-            if counter_dict[a] == counter_dict[b]:
-                return True
-            return False
-
-        ans = []
-        for i in range(len(strs)):
-            anagram = []
-            if not check[strs[i]]:
-                check[strs[i]] = True
-                anagram.append(strs[i])
-                for j in range(i + 1, len(strs)):
-                    if validAnagram(strs[i], strs[j]):
-                        anagram.append(strs[j])
-                        check[strs[j]] = True
-            if len(anagram) != 0:
-                ans.append(anagram)
-        return ans
+        result = defaultdict(list)
+        for cur_str in strs:
+            count = [0] * 26
+            for i in cur_str:
+                count[ord(i) - ord("a")] += 1
+            result[tuple(count)].append(cur_str)
+        return result.values()
 
 
 # @lc code=end
